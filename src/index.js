@@ -1,7 +1,41 @@
 import "./index.scss";
-import Carousel from "bootstrap/js/dist/carousel";
+import "bootstrap/js/dist/carousel";
 import Offcanvas from "bootstrap/js/dist/offcanvas";
 import Collapse from "bootstrap/js/dist/collapse";
+import Modal from "bootstrap/js/dist/modal";
+
+// 使用Js 直接做出相同的商品 div
+function renderItems() {
+  const list = document.getElementById("list");
+
+  for (let i = 0; i < 20; i++) {
+    const colItem = document.createElement("div");
+    colItem.classList.add("col");
+    colItem.innerHTML = `
+    <div class="col">
+              <div class="mt-4">
+                <div class="card">
+                  <img
+                    class="w-100"
+                    src="https://bruce-fe-ec.web.app/images/item.png"
+                    alt=""
+                  />
+                  <div class="card-body p-2">
+                    <h5 class="card-title text-primary">$2000</h5>
+                    <p class="card-text fs-7">這有兩罐沐浴乳喔</p>
+                    <p class="card-text text-end fs-8">已售出 831</p>
+                  </div>
+                  <span class="badge bg-primary position-absolute top-0 end-0"
+                    >雙11優惠</span
+                  >
+                </div>
+              </div>
+            </div>
+    `;
+
+    list.appendChild(colItem);
+  }
+}
 
 // ------電腦版-------
 function collapsePCHandler() {
@@ -73,6 +107,38 @@ function offcanvasHandler() {
   });
 }
 
+// 模擬按下搜尋鍵後的載入中..
+function searchHandler() {
+  const searchBtn = document.getElementById("search-btn");
+  const itemsWrapper = document.getElementById("items-wrapper");
+  const spinnerWrapper = document.getElementById("spinner-wrapper");
+
+  searchBtn.addEventListener("click", function () {
+    itemsWrapper.classList.add("d-none");
+    spinnerWrapper.classList.remove("d-none");
+
+    setTimeout(function () {
+      itemsWrapper.classList.remove("d-none");
+      spinnerWrapper.classList.add("d-none");
+    }, 1500);
+  });
+}
+
+// 購物車 Modal
+function modalHandler() {
+  const cartBtn = document.getElementById("cart-btn");
+  const cart = new Modal(document.getElementById("cart"), {
+    keyboard: false,
+  });
+
+  cartBtn.addEventListener("click", function () {
+    cart.toggle();
+  });
+}
+
 collapsePCHandler();
 collapseMobileHandler();
 offcanvasHandler();
+renderItems();
+searchHandler();
+modalHandler();
